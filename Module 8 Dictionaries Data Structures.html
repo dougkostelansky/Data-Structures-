@@ -1,0 +1,193 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>CMPS 260: Module 8 Homework</title>
+<style>* { font-family: monospace; }</style>
+<script>
+//--------------//
+// Dictionaries //
+//--------------//
+console.log("Dictionaries");
+
+// 1. Implement the dictionary data structure using the prototype (as opposed
+//    to the version we wrote in class).
+
+function Dictionary() {
+  this.items = {};
+}
+
+Dictionary.prototype.has = function(key){
+  return key in this.items;
+}
+
+Dictionary.prototype.set = function(key, value){
+    this.items[key] = value;
+}
+
+Dictionary.prototype.delete = function(key){
+if (this.has(key)){
+delete this.items[key];
+return true;
+  }
+return false;  
+}
+
+Dictionary.prototype.get = function(key){
+  return this.has(key) ? this.items[key] : undefined;
+}
+
+Dictionary.prototype.values = function(key){
+var values = [];
+for (var k in this.items) {
+if (this.has(k)) {
+  values.push(this.items[k]);
+    }
+  }
+ return values;
+}
+
+Dictionary.prototype.keys = function(){
+return Object.keys(this.items);
+}
+
+Dictionary.prototype.getItems = function(){
+return this.items;
+}
+
+Dictionary.prototype.size = function(){
+return Object.keys(this.items).length;
+}
+
+
+// 2. Run some tests that show that your code works.
+var dictionary = new Dictionary();
+dictionary.set('Doug', 'doug@gmail.com');
+dictionary.set('Mark', 'mark@gmail.com');
+dictionary.set('Jimmy', 'jimmy@gmail.com');
+
+console.log(dictionary.has('Doug'));
+console.log(dictionary.size());
+console.log(dictionary.getItems());
+
+//----------------//
+// The hash table //
+//----------------//
+console.log("The hash table");
+
+// 1. Implement the hash table data structure using the prototype (as opposed
+//    to the version we wrote in class). Use separate chaining to resolve
+//    collisions and the djb2 hash function for hashing.
+
+function loseloseHashCode(key){
+var hash = 0; //{1}
+for (var i = 0; i < key.length; i++) { //{2}
+hash += key.charCodeAt(i); //{3}
+  }
+return hash % 37;
+}
+
+function HashTable() {
+this.table = [];
+}
+
+HashTable.prototype.put = function(key, value){
+var position = loseloseHashCode(key);
+console.log(position + ' - ' + key);
+this.table[position] = value;
+}
+
+HashTable.prototype.get = function(key){
+return this.table[loseloseHashCode(key)];
+}
+
+HashTable.prototype.remove = function(key){
+this.table[loseloseHashCode(key)] = undefined;
+}
+
+// 2. Run some tests that show that your code works.
+
+var hash = new HashTable();
+hash.put('Doug', 'doug@gmail.com');
+hash.put('Mark', 'mark@gmail.com');
+hash.put('Jimmy', 'jimmy@gmail.com');
+
+console.log(hash);
+console.log(hash.get('Doug'));
+
+// 3. The book discusses linear probing but their approach has a serious
+//    problem. What is the issue?
+//    HINT: The issue can occur when there is a hash collision (two values
+//          mapped to the same index) in combination with a delete operation.
+
+// If we have two values mapped to the same index this would cause the delete function to delete both of the records that are connected to the key(value after hash). 
+// I think the ideal solution to this would be to implement a better hashing function then what is used in the book.
+
+//-------------------//
+// The ES6 Map class //
+//-------------------//
+console.log("The ES6 Map class");
+
+// Skip.
+
+
+
+//-------------------------------------//
+// The ES6 WeakMap and WeakSet classes //
+//-------------------------------------//
+console.log("The ES6 WeakMap and WeakSet classes");
+
+// Skip.
+
+
+
+//---------//
+// Project //
+//---------//
+console.log("Project");
+
+// 1. Complete the method below that adds all key-value pairs from one
+//    dictionary into another. See also the example below.
+
+Dictionary.prototype.merge = function(dict) {
+  // add all key-value pairs in 'dict' to 'this'
+  //Get items for array we want to merge
+ let merge_items = dict.getItems();
+
+  //Loop Through our items
+for(var key in merge_items){
+if(this.has(key)){
+      //If the key exists in our current dictionary set it to the value from the dictionary we are merging
+this.items[key] = merge_items[key];
+}else{
+      //If the key does not exist set a new value in our dictionary
+this.set(key, merge_items[key]);
+    }
+  }
+  return true;
+};
+
+
+Dictionary.prototype.print = function(){
+console.log(this.items);
+}
+
+//Test your code by uncommenting these lines:
+var dict1 = new Dictionary();
+dict1.set("key1", "val1");
+dict1.set("key2", "val2");
+dict1.set("key3", "val3");
+var dict2 = new Dictionary();
+dict2.set("key3", "val3b");
+dict2.set("key4", "val4");
+dict1.merge(dict2);
+dict1.print(); // should contain key1-val1, key2-val2, key3-val3b, key4-val4
+
+
+</script>
+</head>
+<body>
+  See console!
+</body>
+</html>
+
