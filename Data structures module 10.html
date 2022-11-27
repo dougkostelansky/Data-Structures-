@@ -1,0 +1,199 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>CMPS 260: Module 10 Homework</title>
+<style>* { font-family: monospace; }</style>
+<script>
+//-------------------//
+// Graph terminology //
+//-------------------//
+console.log("Graph terminology");
+
+// Skip.
+
+
+
+//----------------------//
+// Representing a graph //
+//----------------------//
+console.log("Representing a graph");
+
+// Skip.
+
+
+
+//--------------------------//
+// Creating the Graph class //
+//--------------------------//
+console.log("Creating the Graph class");
+
+// Skip.
+
+
+
+//------------------//
+// Graph traversals //
+//------------------//
+console.log("Graph traversals");
+
+// Skip.
+
+
+
+//--------------------------//
+// Shortest path algorithms //
+//--------------------------//
+console.log("Shortest path algorithms");
+
+// Skip.
+
+
+
+//-----------------------------//
+// Minimum spanning tree (MST) //
+//-----------------------------//
+console.log("Minimum spanning tree (MST)");
+
+
+function Dictionary() {
+  this.items = {};
+}
+
+Dictionary.prototype.has = function(key){
+  return key in this.items;
+}
+
+Dictionary.prototype.set = function(key, value){
+    this.items[key] = value;
+}
+
+Dictionary.prototype.delete = function(key){
+  if (this.has(key)){
+    delete this.items[key];
+    return true;
+  }
+  return false;  
+}
+
+Dictionary.prototype.get = function(key){
+  return this.has(key) ? this.items[key] : undefined;
+}
+
+Dictionary.prototype.values = function(key){
+  var values = [];
+  for (var k in this.items) {
+    if (this.has(k)) {
+      values.push(this.items[k]);
+    }
+  }
+ return values;
+}
+
+Dictionary.prototype.keys = function(){
+  return Object.keys(this.items);
+}
+
+Dictionary.prototype.getItems = function(){
+  return this.items;
+}
+
+Dictionary.prototype.size = function(){
+  return Object.keys(this.items).length;
+}
+
+
+
+function Graph() {
+  this.vertices = [];
+  this.adjList = new Dictionary();
+}
+Graph.prototype.addVertex = function(v){
+  this.vertices.push(v);
+  this.adjList.set(v, []);
+}
+
+Graph.prototype.addEdge = function(v, w){
+  this.adjList.get(v).push(w); 
+  this.adjList.get(w).push(v);
+}
+
+Graph.prototype.toString = function(){
+  var s = '';
+  for (var i=0; i<this.vertices.length; i++){
+    s += vertices[i] + ' -> ';
+    var neighbors = this.adjList.get(vertices[i]);
+    for (var j=0; j<neighbors.length; j++){
+      s += neighbors[j] + ' ';
+    }
+    s += '\n';
+  }
+  return s; 
+}
+
+// 1. Implement Prim's algorithm (use code from class and the book).
+Graph.prototype.prim = function(){
+  var parent = [], key = [], visited = [];
+  length = this.graph.length, i;
+  for (i = 0; i < length; i++){
+    key[i] = INF;
+    visited[i] = false;
+  }
+  key[0] = 0;
+  parent[0] = -1;
+  for (i = 0; i < length-1; i++) {
+    var u = minKey(key, visited);
+    visited[u] = true;
+    for (var v = 0; v < length; v++){
+      if (this.graph[u][v] && visited[v] == false  
+        && this.graph[u][v] < key[v]){
+        parent[v] = u;
+        key[v] = this.graph[u][v];
+      }
+    }
+  }
+  return parent;
+}
+
+// 2. Show that your code works using the example from the book in the minimum
+//    spanning tree section. Print both the edges and the weights that are part
+//    of the minimum spanning tree.
+
+var new_verticles = [[0, 2, 4, 0, 0, 0],
+ [2, 0, 2, 4, 2, 0],
+ [4, 2, 0, 0, 3, 0],
+ [0, 4, 0, 0, 3, 2],
+ [0, 2, 3, 3, 0, 2],
+ [0, 0, 0, 2, 2, 0]];
+
+var graph = new Graph();
+for (var i=0; i<new_verticles.length; i++){ 
+  for(var v=0; v<new_verticles[i].length; v++){
+    graph.addVertex(new_verticles[i][v]);
+  }
+}
+console.log(graph.prim());
+
+//---------//
+// Project //
+//---------//
+console.log("Project");
+
+// Skip.
+
+
+
+</script>
+</head>
+<body>
+  See console!
+</body>
+</html>
+
+
+</script>
+</head>
+<body>
+  See console!
+</body>
+</html>
